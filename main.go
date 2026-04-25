@@ -150,7 +150,9 @@ func main() {
 		os.Exit(0)
 	}()
 
-	fmt.Println("Server running at http://127.0.0.1:3939")
+	fmt.Println("Server is running!")
+	fmt.Println("- Local:  http://127.0.0.1:3939")
+	fmt.Println("- Public: http://<your-public-ip>:3939")
 	fmt.Println("Security: Banlist & Rate Limit (10 req/30s) enabled")
 	fmt.Println("Schedule: Auto-restart every 12 hours.")
 	

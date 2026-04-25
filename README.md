@@ -68,6 +68,12 @@ A professional real-time "nho hks" tracking application featuring a modern Glass
 
 The application will be available at `http://127.0.0.1:3939`.
 
+## 🌐 Public Access
+
+To access the tracker from the internet (Public IP):
+1. **Firewall**: Ensure port `3939` is open in your server's firewall (e.g., GCP VPC Firewall, AWS Security Groups, or `ufw` on Linux).
+2. **Access**: Use `http://<your-public-ip>:3939`.
+
 ## 📍 API Endpoints
 
 - `GET /api/timer1`: Returns data for the first milestone (Label & Start Date).

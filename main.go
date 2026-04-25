@@ -6,9 +6,41 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"strings"
 	"sync"
 	"time"
 )
+
+// getClientIP extracts the real IP address from the request headers if available,
+// falling back to RemoteAddr. This is crucial when running behind Nginx.
+func getClientIP(r *http.Request) string {
+	// 1. Check X-Forwarded-For
+	xff := r.Header.Get("X-Forwarded-For")
+	if xff != "" {
+		ips := strings.Split(xff, ",")
+		ip := strings.TrimSpace(ips[0])
+		if ip != "" {
+			return ip
+		}
+	}
+
+	// 2. Check X-Real-IP
+	xRealIP := r.Header.Get("X-Real-IP")
+	if xRealIP != "" {
+		return strings.TrimSpace(xRealIP)
+	}
+
+	// 3. Fallback to RemoteAddr
+	host, _, err := net.SplitHostPort(r.RemoteAddr)
+	if err != nil {
+		host = r.RemoteAddr
+	}
+
+	if host == "::1" {
+		return "127.0.0.1"
+	}
+	return host
+}
 
 // BanList manages blocked IP addresses
 type BanList struct {
@@ -19,24 +51,16 @@ type BanList struct {
 func (bl *BanList) IsBanned(ip string) bool {
 	bl.mu.RLock()
 	defer bl.mu.RUnlock()
-	host, _, _ := net.SplitHostPort(ip)
-	if host == "::1" {
-		host = "127.0.0.1"
-	}
-	return bl.ips[host]
+	return bl.ips[ip]
 }
 
 func (bl *BanList) Middleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		ip := r.RemoteAddr
-		host, _, _ := net.SplitHostPort(ip)
-		if host == "::1" {
-			host = "127.0.0.1"
-		}
+		ip := getClientIP(r)
 		
-		if bl.IsBanned(r.RemoteAddr) {
+		if bl.IsBanned(ip) {
 			now := time.Now().Format("15:04:05")
-			fmt.Printf("[%s] 🚫 BANNED ATTEMPT: %s was denied access\n", now, host)
+			fmt.Printf("[%s] 🚫 BANNED ATTEMPT: %s was denied access\n", now, ip)
 			w.WriteHeader(http.StatusForbidden)
 			fmt.Fprint(w, "Access Denied: Your IP is blacklisted.")
 			return
@@ -53,10 +77,7 @@ type RateLimiter struct {
 
 func (rl *RateLimiter) Limit(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		ip, _, _ := net.SplitHostPort(r.RemoteAddr)
-		if ip == "::1" {
-			ip = "127.0.0.1"
-		}
+		ip := getClientIP(r)
 
 		rl.mu.Lock()
 		defer rl.mu.Unlock()
@@ -153,7 +174,7 @@ func main() {
 	fmt.Println("Server is running!")
 	fmt.Println("- Local:  http://127.0.0.1:3939")
 	fmt.Println("- Public: http://<your-public-ip>:3939")
-	fmt.Println("Security: Banlist & Rate Limit (10 req/30s) enabled")
+	fmt.Println("Security: Banlist & Rate Limit (10 req/30s) enabled [Nginx Ready]")
 	fmt.Println("Schedule: Auto-restart every 12 hours.")
 	
 	if err := http.ListenAndServe("0.0.0.0:3939", finalHandler); err != nil {

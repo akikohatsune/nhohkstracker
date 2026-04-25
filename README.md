@@ -74,6 +74,29 @@ To access the tracker from the internet (Public IP):
 1. **Firewall**: Ensure port `3939` is open in your server's firewall (e.g., GCP VPC Firewall, AWS Security Groups, or `ufw` on Linux).
 2. **Access**: Use `http://<your-public-ip>:3939`.
 
+## 🌐 Nginx Reverse Proxy Setup
+
+If you are running the application behind Nginx, it is critical to pass the real client IP so that the Banlist and Rate Limiter function correctly (otherwise all traffic appears to come from `127.0.0.1`).
+
+Add this to your Nginx configuration:
+
+```nginx
+server {
+    listen 80;
+    server_name yourdomain.com;
+
+    location / {
+        proxy_pass http://127.0.0.1:3939;
+        
+        # Crucial headers for IP tracking
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
 ## 📍 API Endpoints
 
 - `GET /api/timer1`: Returns data for the first milestone (Label & Start Date).

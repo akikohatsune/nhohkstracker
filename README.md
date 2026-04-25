@@ -75,7 +75,7 @@ The application will be available at `http://127.0.0.1:3939`.
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the CC0 1.0 Universal - see the [LICENSE](LICENSE) file for details.
 
 ---
 *Capturing every heartbeat of time.*

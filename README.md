@@ -78,4 +78,4 @@ The application will be available at `http://127.0.0.1:3939`.
 This project is licensed under the CC0 1.0 Universal - see the [LICENSE](LICENSE) file for details.
 
 ---
-*Capturing every heartbeat of time.*
+*dcm lcf suot ngay nho hks*

@@ -1,35 +1,81 @@
-# Hướng dẫn cài đặt KomeTimeLap
+# nhohkstracker
 
-Dự án này sử dụng ngôn ngữ Go (Golang) và không yêu cầu thư viện bên ngoài (zero dependencies).
+A professional real-time time tracking application featuring a modern Glassmorphism UI and a robust Go backend. This project captures and monitors specific milestones with precision and security.
 
-## 1. Yêu cầu hệ thống
-- Đã cài đặt **Go** (phiên bản 1.16 trở lên). Tải tại: https://go.dev/dl/
+## 🚀 Features
 
-## 2. Cách cài đặt trên máy mới
-1. Tải toàn bộ thư mục này về máy.
-2. Mở terminal tại thư mục dự án.
-3. Chạy lệnh sau để đảm bảo môi trường Go đã sẵn sàng:
+- **Modern Glassmorphism UI**: High-end aesthetic with frosted glass effects, smooth transitions, and a clean layout.
+- **Go Backend**: High-performance server built with Go (Golang) using only the standard library for maximum efficiency.
+- **Real-time Tracking**: Dynamic countdown/count-up timers synced directly from the server via API.
+- **Security & Protection**:
+    - **Rate Limiting**: Built-in protection (10 req/30s) to prevent API abuse.
+    - **IP Banlist**: Comprehensive blacklisting system to block malicious actors.
+    - **IPv4 Optimized**: Clear IPv4 logging and server binding.
+- **Reliability**:
+    - **Auto-restart System**: Includes a dedicated shell script for continuous uptime with 12-hour periodic restarts.
+- **Responsive Design**: Fully optimized for mobile, tablet, and desktop viewing.
+- **API Documentation**: Built-in, easy-to-read technical guide for developers.
+
+## 🛠️ Technologies
+
+- **Backend**: Go (Golang)
+- **Frontend**: HTML5, CSS3 (Vanilla), JavaScript (Vanilla)
+- **Typography**: Montserrat (Google Fonts)
+- **Server**: Custom HTTP Multiplexer
+
+## 📁 Project Structure
+
+```text
+.
+├── main.go             # Go backend server logic
+├── go.mod              # Go module definition
+├── run.sh              # Auto-restart & management script
+├── README.md           # Project documentation
+├── static/
+│   ├── index.html      # Main application entry point
+│   ├── style.css       # Modern Glassmorphism styles
+│   ├── script.js       # Frontend real-time logic
+│   ├── assets/
+│   │   └── tuyu1.png   # Background artwork
+│   └── misc/
+│       └── docs.html   # API technical documentation
+```
+
+## ⚙️ Setup & Installation
+
+### Prerequisites
+- **Go** (1.16 or higher installed)
+- **Bash** (for the auto-restart script)
+
+### Running the Application
+
+1. **Clone the repository**:
    ```bash
-   go mod tidy
+   git clone https://github.com/akikohatsune/nhohkstracker.git
+   cd nhohkstracker
    ```
 
-## 3. Cách chạy ứng dụng
-### Trên Linux / macOS / Android (Termux):
-Sử dụng script tự động để có tính năng tự khởi động lại sau 12h:
-```bash
-chmod +x run.sh
-./run.sh
-```
+2. **Run with Auto-restart (Recommended)**:
+   ```bash
+   chmod +x run.sh
+   ./run.sh
+   ```
 
-### Trên Windows:
-Bạn có thể chạy trực tiếp:
-```powershell
-go run main.go
-```
-*(Lưu ý: Trên Windows nếu muốn tự restart sau 12h, bạn cần tạo file `.bat` tương đương hoặc chạy thủ công).*
+3. **Run manually**:
+   ```bash
+   go run main.go
+   ```
 
-## 4. Cấu trúc thư mục
-- `main.go`: Mã nguồn server backend (Go).
-- `static/`: Chứa giao diện frontend (HTML, CSS, JS, Favicon).
-- `run.sh`: Script quản lý vòng lặp chạy server.
-- `go.mod`: File quản lý module của Go.
+The application will be available at `http://127.0.0.1:3939`.
+
+## 📍 API Endpoints
+
+- `GET /api/timer1`: Returns data for the first milestone (Label & Start Date).
+- `GET /api/timer2`: Returns data for the second milestone (Label & Start Date).
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+---
+*Capturing every heartbeat of time.*

@@ -1,6 +1,6 @@
 # nhohkstracker
 
-A professional real-time time tracking application featuring a modern Glassmorphism UI and a robust Go backend. This project captures and monitors specific milestones with precision and security.
+A professional real-time "nho hks" tracking application featuring a modern Glassmorphism UI and a robust Go backend.
 
 ## 🚀 Features
 

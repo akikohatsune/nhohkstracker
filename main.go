@@ -88,8 +88,15 @@ func (rl *RateLimiter) Limit(next http.HandlerFunc) http.HandlerFunc {
 }
 
 type TimerData struct {
-	Label     string `json:"label"`
-	StartDate string `json:"start_date"`
+	Label       string `json:"label"`
+	StartDate   string `json:"start_date"`
+	DaysElapsed int    `json:"days_elapsed"`
+}
+
+func calculateDays(startDateStr string) int {
+	startDate, _ := time.Parse(time.RFC3339, startDateStr)
+	diff := time.Since(startDate)
+	return int(diff.Hours() / 24)
 }
 
 func main() {
@@ -108,9 +115,11 @@ func main() {
 
 	// API 1: Milestone 1
 	mux.HandleFunc("/api/timer1", limiter.Limit(func(w http.ResponseWriter, r *http.Request) {
+		date := "2025-11-24T00:00:00Z"
 		data := TimerData{
-			Label:     "Break up with Hoả",
-			StartDate: "2025-11-24T00:00:00Z",
+			Label:       "Break up with lcf",
+			StartDate:   date,
+			DaysElapsed: calculateDays(date),
 		}
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(data)
@@ -118,9 +127,11 @@ func main() {
 
 	// API 2: Milestone 2
 	mux.HandleFunc("/api/timer2", limiter.Limit(func(w http.ResponseWriter, r *http.Request) {
+		date := "2025-11-08T00:00:00Z"
 		data := TimerData{
-			Label:     "First time Hoả said \"nho hks\"",
-			StartDate: "2025-11-08T00:00:00Z",
+			Label:       "First time lcf said \"nho hks\"",
+			StartDate:   date,
+			DaysElapsed: calculateDays(date),
 		}
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(data)

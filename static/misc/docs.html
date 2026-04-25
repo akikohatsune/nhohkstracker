@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation | "nho hks" Tracker</title>
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg-overlay: rgba(15, 23, 42, 0.6);
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --text-main: #1e293b;
+            --text-muted: #475569;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            background-image: linear-gradient(var(--bg-overlay), var(--bg-overlay)), url('/assets/tuyu1.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 30px;
+            transition: transform 0.2s;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: #0f172a;
+            border-bottom: 2px solid rgba(37, 99, 235, 0.2);
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: #1e293b;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        p {
+            line-height: 1.7;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+
+        .endpoint-card {
+            background: rgba(255, 255, 255, 0.5);
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .method {
+            background: #10b981;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-right: 10px;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: rgba(0, 0, 0, 0.05);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #ef4444;
+            font-weight: 600;
+        }
+
+        pre {
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 20px;
+            border-radius: 16px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            margin: 15px 0;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        ul {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-muted);
+        }
+
+        li::before {
+            content: "✦";
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px 20px;
+            }
+            h1 { font-size: 1.7rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← Home</a>
+        <h1>API Documentation</h1>
+        
+        <p>Welcome to <strong>"nho hks" Tracker</strong> technical guide. Below are the details for integrating our time-tracking API.</p>
+
+        <h2>API Endpoints</h2>
+        
+        <div class="endpoint-card">
+            <p><span class="method">GET</span> <code>/api/timer1</code></p>
+            <p>Fetch milestone data from "Break up with LFC" (24/11/2025).</p>
+        </div>
+
+        <div class="endpoint-card">
+            <p><span class="method">GET</span> <code>/api/timer2</code></p>
+            <p>Fetch milestone data from "First time LFC said 'nho hks'" (08/11/2025).</p>
+        </div>
+
+        <h2>JSON Structure</h2>
+        <pre>{
+  "label": "Break up with LFC",
+  "start_date": "2025-11-24T00:00:00Z"
+}</pre>
+
+        <h2>Security & Limits</h2>
+        <ul>
+            <li><strong>Rate Limit:</strong> Maximum 10 requests per 30 seconds.</li>
+            <li><strong>Response:</strong> Returns <code>429 Too Many Requests</code> if exceeded.</li>
+            <li><strong>Banlist:</strong> IPs with malicious behavior will be permanently blacklisted.</li>
+        </ul>
+
+        <h2>Integration Example</h2>
+        <p>Use the following Vanilla JS snippet to get started:</p>
+        <pre>fetch('/api/timer1')
+  .then(res => res.json())
+  .then(data => {
+    console.log("Milestone date:", data.start_date);
+  });</pre>
+    </div>
+
+    <footer style="margin-top: 40px; color: rgba(255,255,255,0.7); font-size: 0.85rem; text-align: center;">
+        <p>© 2026 Kome Documentation</p>
+    </footer>
+</body>
+</html>

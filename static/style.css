@@ -1,0 +1,163 @@
+:root {
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --bg-overlay: rgba(15, 23, 42, 0.4); /* Giảm nhẹ lớp phủ tối để ảnh rõ hơn */
+    --card-bg: rgba(255, 255, 255, 0.65); /* Tăng độ trong suốt (từ 0.85 xuống 0.65) */
+    --text-main: #0f172a;
+    --text-muted: #475569;
+    --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', -apple-system, system-ui, sans-serif;
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 24px 16px;
+    
+    /* Cấu hình ảnh nền */
+    background-image: linear-gradient(var(--bg-overlay), var(--bg-overlay)), url('/assets/tuyu1.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+footer {
+    width: 100%;
+    max-width: 600px;
+}
+
+footer p {
+    position: relative;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    color: white; /* Chỉnh màu chữ footer cho nổi trên nền tối */
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+    width: 100%;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #ffffff, #93c5fd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -1.5px;
+    text-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.docs-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 12px 24px;
+    border-radius: 50px;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: all 0.2s;
+}
+
+.docs-link:hover {
+    transform: translateY(-2px);
+    background: #f8fafc;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.timer-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px); /* Tăng độ mờ mạnh hơn (từ 10px lên 20px) */
+    -webkit-backdrop-filter: blur(20px);
+    padding: 40px 24px;
+    border-radius: 32px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    border: 1.5px solid rgba(255, 255, 255, 0.3); /* Viền mỏng và nhẹ hơn */
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15); /* Thêm một chút đổ bóng màu để làm nổi viền */
+}
+
+.timer-card h2 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.time-display {
+    display: flex;
+    justify-content: space-around;
+    align-items: baseline;
+    width: 100%;
+}
+
+.time-segment {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.time-value {
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--primary);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -1px;
+}
+
+.unit {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-top: 10px;
+    text-transform: uppercase;
+}
+
+.separator {
+    font-size: 2rem;
+    font-weight: 300;
+    color: #cbd5e1;
+    opacity: 0.5;
+    padding-bottom: 25px;
+}
+
+@media (max-width: 400px) {
+    .time-value {
+        font-size: 2.2rem;
+    }
+    .unit {
+        font-size: 0.75rem;
+    }
+    .timer-card {
+        padding: 32px 16px;
+    }
+    h1 {
+        font-size: 2rem;
+    }
+}
